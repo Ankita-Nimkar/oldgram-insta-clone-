@@ -68,45 +68,46 @@ renderPosts();
 const postImg = document.querySelectorAll(".post-img");
 const likeCount = document.querySelectorAll(".like-count");
 const heart = document.querySelectorAll(".heart");
-let count;
-let isClick = false;
-
+let dbClk = false;
+let isRed = false;
+//////post click
 for (let j = 0; j < postImg.length; j++) {
-  postImg[j].addEventListener("dblclick", (e) => {
-    if (isClick) {
-      return;
+  let count = posts[j].likes;
+  ///////////heart click
+  heart[j].addEventListener("click", (e) => {
+    console.log(e.target);
+    if (heart[j].classList.contains("red")) {
+      heart[j].classList.remove("red");
+      count--;
+      posts[j].likes = count;
+      likeCount[
+        j
+      ].innerHTML = `<p class="like-count">${posts[j].likes} likes</p>`;
     } else {
       heart[j].classList.add("red");
-      count = posts[j].likes;
+
       count++;
       posts[j].likes = count;
       likeCount[
         j
       ].innerHTML = `<p class="like-count">${posts[j].likes} likes</p>`;
-      isClick = true;
     }
   });
-}
+  /////post-img
+  postImg[j].addEventListener("dblclick", (e) => {
+    console.log(e.target);
+    console.log(heart[j]);
+    if (!heart[j].classList.contains("red")) {
+      console.log(e.target);
 
-for (let k = 0; k < postImg.length; k++) {
-  heart[k].addEventListener("click", () => {
-    if (isClick) {
-      heart[k].classList.remove("red");
-      count--;
-      posts[k].likes = count;
-      likeCount[
-        k
-      ].innerHTML = `<p class="like-count">${posts[k].likes} likes</p>`;
-      isClick = false;
-    } else {
-      heart[k].classList.add("red");
-      count = posts[k].likes;
+      heart[j].classList.add("red");
       count++;
-      posts[k].likes = count;
+      posts[j].likes = count;
       likeCount[
-        k
-      ].innerHTML = `<p class="like-count">${posts[k].likes} likes</p>`;
-      isClick = true;
-    }
+        j
+      ].innerHTML = `<p class="like-count">${posts[j].likes} likes</p>`;
+
+      console.log(`count:${posts[j].likes}`);
+    } else return;
   });
 }
